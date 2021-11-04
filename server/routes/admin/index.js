@@ -4,7 +4,7 @@ module.exports = app => {
   const jwt = require('jsonwebtoken')
   const AdminUser = require('../../models/AdminUser')
   const router = express.Router({
-    mergeParams: true
+    mergeParams: true,
   })
 
   // 创建资源
@@ -21,7 +21,7 @@ module.exports = app => {
   router.delete('/:id', async (req, res) => {
     await req.Model.findByIdAndDelete(req.params.id)
     res.send({
-      success: true
+      success: true,
     })
   })
   // 资源列表
@@ -44,7 +44,7 @@ module.exports = app => {
   app.use('/admin/api/rest/:resource', authMiddleware(), resourceMiddleware(), router)
 
   const multer = require('multer')
-  const MAO = require('multer-aliyun-oss');
+  const MAO = require('multer-aliyun-oss')
   const upload = multer({
     // dest: __dirname + '/../../uploads',
     storage: MAO({
@@ -52,13 +52,13 @@ module.exports = app => {
         region: 'oss-cn-zhangjiakou',
         accessKeyId: '替换为你的真实id',
         accessKeySecret: '替换为你的真实secret',
-        bucket: 'node-vue-moba'
-      }
-    })
+        bucket: 'node-vue-moba',
+      },
+    }),
   })
   app.post('/admin/api/upload', authMiddleware(), upload.single('file'), async (req, res) => {
     const file = req.file
-    // file.url = `http://test.topfullstack.com/uploads/${file.filename}`
+    file.url = `http://test.huo0127.com/uploads/${file.filename}`
     res.send(file)
   })
 
@@ -80,7 +80,7 @@ module.exports = app => {
   app.use(async (err, req, res, next) => {
     // console.log(err)
     res.status(err.statusCode || 500).send({
-      message: err.message
+      message: err.message,
     })
   })
 }
